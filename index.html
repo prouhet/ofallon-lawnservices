@@ -903,36 +903,37 @@
             
             <div class="filters">
                 <div class="filter-group">
-                    <label for="type-filter">Service Type</label>
+                    <label for="type-filter">Care Type</label>
                     <select id="type-filter">
-                        <option value="all">All Types</option>
-                        <option value="mowing">Mowing Services</option>
-                        <option value="fertilization">Fertilization & Treatment</option>
-                        <option value="landscaping">Landscaping</option>
-                        <option value="maintenance">Full Maintenance</option>
-                        <option value="specialty">Specialty Services</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group">
-                    <label for="area-filter">Service Area</label>
-                    <select id="area-filter">
-                        <option value="all">All Areas</option>
-                        <option value="ofallon">O'Fallon</option>
-                        <option value="shiloh">Shiloh</option>
-                        <option value="belleville">Belleville</option>
-                        <option value="metro">Metro East</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group">
-                    <label for="service-filter">Special Services</label>
-                    <select id="service-filter">
-                        <option value="all">All Services</option>
+                        <option value="all">All Care Types</option>
+                        <option value="basic">Basic Mowing</option>
+                        <option value="standard">Standard Care</option>
+                        <option value="fullservice">Full-Service</option>
+                        <option value="premium">Premium Maintenance</option>
+                        <option value="specialty">Specialty Focus</option>
                         <option value="organic">Organic Programs</option>
-                        <option value="irrigation">Irrigation</option>
-                        <option value="landscaping">Landscaping</option>
-                        <option value="seasonal">Seasonal Cleanup</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="flexibility-filter">Schedule Type</label>
+                    <select id="flexibility-filter">
+                        <option value="all">All Schedules</option>
+                        <option value="flexible">Very Flexible</option>
+                        <option value="weekly">Weekly/Bi-weekly</option>
+                        <option value="project">Project-Based</option>
+                        <option value="program">Program Schedule</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="service-filter">Service Level</label>
+                    <select id="service-filter">
+                        <option value="all">All Service Levels</option>
+                        <option value="personal">Personal Service</option>
+                        <option value="premium">Premium Care</option>
+                        <option value="professional">Professional Service</option>
+                        <option value="standardized">Standardized Service</option>
                     </select>
                 </div>
             </div>
@@ -942,10 +943,9 @@
                     <thead>
                         <tr>
                             <th>Service Name</th>
-                            <th>Type</th>
-                            <th>Services</th>
-                            <th>Service Area</th>
-                            <th>Special Features</th>
+                            <th>Care Type</th>
+                            <th>Schedule Flexibility</th>
+                            <th>Customer Care & Communication</th>
                             <th>Rating</th>
                         </tr>
                     </thead>
@@ -2150,30 +2150,56 @@
                 nameCell.appendChild(nameWrapper);
                 row.appendChild(nameCell);
                 
-                // Type cell
-                const typeCell = document.createElement('td');
-                typeCell.textContent = service.type;
-                row.appendChild(typeCell);
+                // Care Type cell
+                const careTypeCell = document.createElement('td');
+                let careType = 'Standard Care';
+                if (service.type.toLowerCase().includes('premium') || service.type.toLowerCase().includes('landscape design')) {
+                    careType = 'Premium Maintenance';
+                } else if (service.type.toLowerCase().includes('full service') || service.type.toLowerCase().includes('comprehensive')) {
+                    careType = 'Full-Service';
+                } else if (service.type.toLowerCase().includes('specialist') || service.type.toLowerCase().includes('irrigation')) {
+                    careType = 'Specialty Focus';
+                } else if (service.organicPrograms) {
+                    careType = 'Organic Programs';
+                } else if (service.services.length <= 2 && service.services.some(s => s.toLowerCase().includes('mowing'))) {
+                    careType = 'Basic Mowing';
+                }
+                careTypeCell.textContent = careType;
+                row.appendChild(careTypeCell);
                 
-                // Services cell
-                const servicesCell = document.createElement('td');
-                servicesCell.textContent = service.services.slice(0, 3).join(', ');
-                row.appendChild(servicesCell);
+                // Schedule Flexibility cell
+                const flexibilityCell = document.createElement('td');
+                let flexibility = 'Standard Schedule';
+                if (service.type.toLowerCase().includes('landscaping') || service.type.toLowerCase().includes('design')) {
+                    flexibility = 'Project-Based • Custom Timeline';
+                } else if (service.type.toLowerCase().includes('chain') || service.type.toLowerCase().includes('franchise')) {
+                    flexibility = 'Program Schedule • Annual Contracts';
+                } else if (service.established && parseInt(service.established) < 2010) {
+                    flexibility = 'Flexible Options • Established Service';
+                } else if (service.isPremium || service.type.toLowerCase().includes('veteran')) {
+                    flexibility = 'Very Flexible • Customer Focus';
+                } else {
+                    flexibility = 'Weekly/Bi-weekly Options';
+                }
+                flexibilityCell.textContent = flexibility;
+                row.appendChild(flexibilityCell);
                 
-                // Service Area cell
-                const areaCell = document.createElement('td');
-                areaCell.textContent = service.serviceArea;
-                row.appendChild(areaCell);
-                
-                // Special features cell
-                const featuresCell = document.createElement('td');
-                const topFeatures = [];
-                if (service.organicPrograms) topFeatures.push('Organic');
-                if (service.irrigation) topFeatures.push('Irrigation');
-                if (service.landscaping) topFeatures.push('Landscaping');
-                if (service.seasonalCleanup) topFeatures.push('Seasonal');
-                featuresCell.textContent = topFeatures.length > 0 ? topFeatures.join(', ') : 'Standard Care';
-                row.appendChild(featuresCell);
+                // Customer Care & Communication cell
+                const communicationCell = document.createElement('td');
+                let communication = 'Phone-Based Service';
+                if (service.isPremium) {
+                    communication = 'Personal Service • Same-day Response';
+                } else if (service.type.toLowerCase().includes('premium') || service.type.toLowerCase().includes('landscape design')) {
+                    communication = 'Consultation Focus • Premium Care';
+                } else if (service.type.toLowerCase().includes('veteran') || service.type.toLowerCase().includes('family')) {
+                    communication = 'Personal Touch • Reliable Contact';
+                } else if (service.type.toLowerCase().includes('chain') || service.type.toLowerCase().includes('franchise')) {
+                    communication = 'Standardized Service • Business Hours';
+                } else if (service.rating && service.rating >= 4.7) {
+                    communication = 'Excellent Service • Customer Focus';
+                }
+                communicationCell.textContent = communication;
+                row.appendChild(communicationCell);
                 
                 // Rating cell
                 const ratingCell = document.createElement('td');
@@ -2403,65 +2429,93 @@
         // Setup filter functionality
         function setupFilters() {
             const typeFilter = document.getElementById('type-filter');
-            const areaFilter = document.getElementById('area-filter');
+            const flexibilityFilter = document.getElementById('flexibility-filter');
             const serviceFilter = document.getElementById('service-filter');
             
-            if (!typeFilter || !areaFilter || !serviceFilter) {
+            if (!typeFilter || !flexibilityFilter || !serviceFilter) {
                 console.warn('⚠️ Filter elements not found');
                 return;
             }
             
             const applyFilters = () => {
                 const typeValue = typeFilter.value;
-                const areaValue = areaFilter.value;
+                const flexibilityValue = flexibilityFilter.value;
                 const serviceValue = serviceFilter.value;
                 
-                console.log('🔍 Applying filters:', { typeValue, areaValue, serviceValue });
+                console.log('🔍 Applying filters:', { typeValue, flexibilityValue, serviceValue });
                 
                 const filteredServices = lawnServicesData.filter(service => {
-                    // Type filter
+                    // Care Type filter
                     if (typeValue !== 'all') {
                         const serviceTypeLower = service.type.toLowerCase();
                         let typeMatch = false;
                         
                         switch(typeValue) {
-                            case 'mowing':
-                                typeMatch = serviceTypeLower.includes('mowing') || serviceTypeLower.includes('lawn care');
+                            case 'basic':
+                                typeMatch = service.services.length <= 2 && service.services.some(s => s.toLowerCase().includes('mowing'));
                                 break;
-                            case 'fertilization':
-                                typeMatch = serviceTypeLower.includes('fertilization') || serviceTypeLower.includes('treatment');
+                            case 'standard':
+                                typeMatch = !serviceTypeLower.includes('premium') && !serviceTypeLower.includes('specialist') && !service.organicPrograms;
                                 break;
-                            case 'landscaping':
-                                typeMatch = serviceTypeLower.includes('landscaping') || serviceTypeLower.includes('landscape');
+                            case 'fullservice':
+                                typeMatch = serviceTypeLower.includes('full service') || serviceTypeLower.includes('comprehensive');
                                 break;
-                            case 'maintenance':
-                                typeMatch = serviceTypeLower.includes('maintenance') || serviceTypeLower.includes('full service');
+                            case 'premium':
+                                typeMatch = serviceTypeLower.includes('premium') || serviceTypeLower.includes('landscape design');
                                 break;
                             case 'specialty':
                                 typeMatch = serviceTypeLower.includes('specialist') || serviceTypeLower.includes('irrigation');
                                 break;
-                            default:
-                                typeMatch = serviceTypeLower.includes(typeValue);
+                            case 'organic':
+                                typeMatch = service.organicPrograms;
+                                break;
                         }
                         
                         if (!typeMatch) return false;
                     }
                     
-                    // Area filter
-                    if (areaValue !== 'all') {
-                        const serviceAreaLower = service.serviceArea.toLowerCase();
-                        if (areaValue === 'ofallon' && !serviceAreaLower.includes('o\'fallon')) return false;
-                        if (areaValue === 'shiloh' && !serviceAreaLower.includes('shiloh')) return false;
-                        if (areaValue === 'belleville' && !serviceAreaLower.includes('belleville')) return false;
-                        if (areaValue === 'metro' && !serviceAreaLower.includes('metro')) return false;
+                    // Schedule Flexibility filter
+                    if (flexibilityValue !== 'all') {
+                        let flexMatch = false;
+                        
+                        switch(flexibilityValue) {
+                            case 'flexible':
+                                flexMatch = service.isPremium || service.type.toLowerCase().includes('veteran');
+                                break;
+                            case 'weekly':
+                                flexMatch = !service.type.toLowerCase().includes('landscaping') && !service.type.toLowerCase().includes('chain');
+                                break;
+                            case 'project':
+                                flexMatch = service.type.toLowerCase().includes('landscaping') || service.type.toLowerCase().includes('design');
+                                break;
+                            case 'program':
+                                flexMatch = service.type.toLowerCase().includes('chain') || service.type.toLowerCase().includes('franchise');
+                                break;
+                        }
+                        
+                        if (!flexMatch) return false;
                     }
                     
-                    // Service filter
+                    // Service Level filter
                     if (serviceValue !== 'all') {
-                        if (serviceValue === 'organic' && !service.organicPrograms) return false;
-                        if (serviceValue === 'irrigation' && !service.irrigation) return false;
-                        if (serviceValue === 'landscaping' && !service.landscaping) return false;
-                        if (serviceValue === 'seasonal' && !service.seasonalCleanup) return false;
+                        let serviceMatch = false;
+                        
+                        switch(serviceValue) {
+                            case 'personal':
+                                serviceMatch = service.isPremium || service.type.toLowerCase().includes('veteran') || service.type.toLowerCase().includes('family');
+                                break;
+                            case 'premium':
+                                serviceMatch = service.type.toLowerCase().includes('premium') || service.type.toLowerCase().includes('landscape design');
+                                break;
+                            case 'professional':
+                                serviceMatch = service.rating && service.rating >= 4.5 && !service.type.toLowerCase().includes('chain');
+                                break;
+                            case 'standardized':
+                                serviceMatch = service.type.toLowerCase().includes('chain') || service.type.toLowerCase().includes('franchise');
+                                break;
+                        }
+                        
+                        if (!serviceMatch) return false;
                     }
                     
                     return true;
@@ -2474,7 +2528,7 @@
             };
             
             typeFilter.addEventListener('change', applyFilters);
-            areaFilter.addEventListener('change', applyFilters);
+            flexibilityFilter.addEventListener('change', applyFilters);
             serviceFilter.addEventListener('change', applyFilters);
         }
 
@@ -2545,27 +2599,56 @@
                 nameCell.appendChild(nameWrapper);
                 row.appendChild(nameCell);
                 
-                // Add other cells
-                const typeCell = document.createElement('td');
-                typeCell.textContent = service.type;
-                row.appendChild(typeCell);
+                // Care Type cell
+                const careTypeCell = document.createElement('td');
+                let careType = 'Standard Care';
+                if (service.type.toLowerCase().includes('premium') || service.type.toLowerCase().includes('landscape design')) {
+                    careType = 'Premium Maintenance';
+                } else if (service.type.toLowerCase().includes('full service') || service.type.toLowerCase().includes('comprehensive')) {
+                    careType = 'Full-Service';
+                } else if (service.type.toLowerCase().includes('specialist') || service.type.toLowerCase().includes('irrigation')) {
+                    careType = 'Specialty Focus';
+                } else if (service.organicPrograms) {
+                    careType = 'Organic Programs';
+                } else if (service.services.length <= 2 && service.services.some(s => s.toLowerCase().includes('mowing'))) {
+                    careType = 'Basic Mowing';
+                }
+                careTypeCell.textContent = careType;
+                row.appendChild(careTypeCell);
                 
-                const servicesCell = document.createElement('td');
-                servicesCell.textContent = service.services.slice(0, 3).join(', ');
-                row.appendChild(servicesCell);
+                // Schedule Flexibility cell
+                const flexibilityCell = document.createElement('td');
+                let flexibility = 'Standard Schedule';
+                if (service.type.toLowerCase().includes('landscaping') || service.type.toLowerCase().includes('design')) {
+                    flexibility = 'Project-Based • Custom Timeline';
+                } else if (service.type.toLowerCase().includes('chain') || service.type.toLowerCase().includes('franchise')) {
+                    flexibility = 'Program Schedule • Annual Contracts';
+                } else if (service.established && parseInt(service.established) < 2010) {
+                    flexibility = 'Flexible Options • Established Service';
+                } else if (service.isPremium || service.type.toLowerCase().includes('veteran')) {
+                    flexibility = 'Very Flexible • Customer Focus';
+                } else {
+                    flexibility = 'Weekly/Bi-weekly Options';
+                }
+                flexibilityCell.textContent = flexibility;
+                row.appendChild(flexibilityCell);
                 
-                const areaCell = document.createElement('td');
-                areaCell.textContent = service.serviceArea;
-                row.appendChild(areaCell);
-                
-                const featuresCell = document.createElement('td');
-                const topFeatures = [];
-                if (service.organicPrograms) topFeatures.push('Organic');
-                if (service.irrigation) topFeatures.push('Irrigation');
-                if (service.landscaping) topFeatures.push('Landscaping');
-                if (service.seasonalCleanup) topFeatures.push('Seasonal');
-                featuresCell.textContent = topFeatures.length > 0 ? topFeatures.join(', ') : 'Standard Care';
-                row.appendChild(featuresCell);
+                // Customer Care & Communication cell
+                const communicationCell = document.createElement('td');
+                let communication = 'Phone-Based Service';
+                if (service.isPremium) {
+                    communication = 'Personal Service • Same-day Response';
+                } else if (service.type.toLowerCase().includes('premium') || service.type.toLowerCase().includes('landscape design')) {
+                    communication = 'Consultation Focus • Premium Care';
+                } else if (service.type.toLowerCase().includes('veteran') || service.type.toLowerCase().includes('family')) {
+                    communication = 'Personal Touch • Reliable Contact';
+                } else if (service.type.toLowerCase().includes('chain') || service.type.toLowerCase().includes('franchise')) {
+                    communication = 'Standardized Service • Business Hours';
+                } else if (service.rating && service.rating >= 4.7) {
+                    communication = 'Excellent Service • Customer Focus';
+                }
+                communicationCell.textContent = communication;
+                row.appendChild(communicationCell);
                 
                 const ratingCell = document.createElement('td');
                 if (service.rating) {
