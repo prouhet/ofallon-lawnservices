@@ -341,3 +341,16 @@ function loadCrossNavigation() {
 }
 
 console.log('📦 Footer.js loaded successfully');
+
+// Auto-execute with proper timing
+function initializeFooter() {
+    if (document.querySelector('#contact')) {
+        loadCrossNavigation();
+    } else {
+        console.log('⏳ Contact section not found, retrying...');
+        setTimeout(initializeFooter, 100);
+    }
+}
+
+// Start the initialization
+initializeFooter();
