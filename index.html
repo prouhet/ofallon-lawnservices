@@ -1058,8 +1058,6 @@
         </div>
     </section>
 
-    <!-- Cross-Navigation will be injected here by footer.js -->
-
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -1093,7 +1091,7 @@
         </div>
     </footer>
 
-    <!-- Load footer.js script -->
+    <!-- Footer.js System -->
     <script src="footer.js"></script>
     
     <!-- JavaScript -->
@@ -1972,7 +1970,7 @@
           }
         ];
 
-        // FOOTER LOADING SYSTEM - ADD THIS SECTION
+        // FOOTER LOADING SYSTEM
         function waitForFooter() {
             if (typeof loadCrossNavigation !== 'undefined') {
                 console.log('✅ Footer loaded, injecting cross-nav...');
@@ -2034,7 +2032,7 @@
                 populateFAQSection();
                 console.log('✅ FAQ section populated');
                 
-                // ADD FOOTER LOADING AT THE END
+                // FOOTER LOADING - ADD THIS LINE
                 waitForFooter();
                 
                 console.log('🎉 Lawn services site initialization complete!');
