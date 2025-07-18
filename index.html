@@ -1937,17 +1937,6 @@
           }
         ];
 
-        // FOOTER LOADING SYSTEM
-        function waitForFooter() {
-            if (typeof loadCrossNavigation !== 'undefined') {
-                console.log('✅ Footer loaded, injecting cross-nav...');
-                loadCrossNavigation();
-            } else {
-                console.log('⏳ Waiting for footer.js...');
-                setTimeout(waitForFooter, 50);
-            }
-        }
-
         // SORT FUNCTION FOR MAINTAINING PREMIUM FIRST ORDER
         function sortServicesForDisplay(services) {
             return [...services].sort((a, b) => {
@@ -2000,9 +1989,7 @@
                 console.log('✅ FAQ section populated');
                 
                 // FOOTER LOADING - ADD THIS LINE
-                waitForFooter();
-                
-                console.log('🎉 Lawn services site initialization complete!');
+
                 
             } catch (error) {
                 console.error('❌ Error during initialization:', error);
