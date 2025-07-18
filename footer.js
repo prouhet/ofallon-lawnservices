@@ -1,4 +1,4 @@
-// footer.js - Cross-Directory Navigation for O'Fallon Business Directories
+// footer.js - Complete Footer with Cross-Directory Navigation for O'Fallon Business Directories
 const crossNavHTML = `
 <!-- CROSS-DIRECTORY NAVIGATION SECTION -->
 <section id="directories" class="other-directories" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 60px 0; margin-top: 40px;">
@@ -145,7 +145,7 @@ const crossNavHTML = `
                         <h3 style="margin: 0; font-size: 1.3rem; color: #2c5aa0; font-weight: bold;">Lawn Services</h3>
                     </div>
                     <span style="background: #68d391; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
-                        Compare 26+
+                        Compare 16+
                     </span>
                 </div>
                 <p style="margin: 0; font-size: 1rem; color: #666; line-height: 1.5;">
@@ -212,6 +212,39 @@ const crossNavHTML = `
         </div>
     </div>
 </section>
+
+<!-- REGULAR FOOTER -->
+<footer style="background-color: var(--secondary-color); color: white; padding: 60px 0 20px;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 40px; margin-bottom: 40px;">
+            <div style="flex: 1; min-width: 200px;">
+                <h3 style="margin-bottom: 10px;">O'Fallon Lawn Services Directory</h3>
+                <p>Your guide to lawn care in the 62269 area</p>
+            </div>
+            
+            <div style="flex: 1; min-width: 200px;">
+                <h4>Quick Links</h4>
+                <ul style="list-style: none; margin-top: 15px;">
+                    <li style="margin-bottom: 10px;"><a href="#hero" style="color: #a3d9b1; text-decoration: none;">Home</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#matcher" style="color: #a3d9b1; text-decoration: none;">Find Your Match</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#comparison" style="color: #a3d9b1; text-decoration: none;">Comparison Chart</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#profiles" style="color: #a3d9b1; text-decoration: none;">Service Profiles</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#featured" style="color: #a3d9b1; text-decoration: none;">Featured Service</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#faq" style="color: #a3d9b1; text-decoration: none;">FAQ</a></li>
+                </ul>
+            </div>
+            
+            <div style="flex: 2; min-width: 300px;">
+                <h4>Disclaimer</h4>
+                <p>This directory is for informational purposes only. Information is subject to change. Please contact individual lawn care services for the most current services, pricing, and availability. We are not affiliated with any service listed except our featured partner.</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem;">
+            <p>&copy; 2025 O'Fallon Lawn Services Directory. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
 `;
 
 // CSS for current site highlighting
