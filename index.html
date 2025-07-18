@@ -1058,6 +1058,8 @@
         </div>
     </section>
 
+    <!-- Cross-Navigation will be injected here by footer.js -->
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -1091,6 +1093,9 @@
         </div>
     </footer>
 
+    <!-- Load footer.js script -->
+    <script src="footer.js"></script>
+    
     <!-- JavaScript -->
     <script>
         // Complete Lawn Care Services Data for O'Fallon Area (26 services)
@@ -1967,6 +1972,17 @@
           }
         ];
 
+        // FOOTER LOADING SYSTEM - ADD THIS SECTION
+        function waitForFooter() {
+            if (typeof loadCrossNavigation !== 'undefined') {
+                console.log('✅ Footer loaded, injecting cross-nav...');
+                loadCrossNavigation();
+            } else {
+                console.log('⏳ Waiting for footer.js...');
+                setTimeout(waitForFooter, 50);
+            }
+        }
+
         // SORT FUNCTION FOR MAINTAINING PREMIUM FIRST ORDER
         function sortServicesForDisplay(services) {
             return [...services].sort((a, b) => {
@@ -2017,6 +2033,9 @@
                 
                 populateFAQSection();
                 console.log('✅ FAQ section populated');
+                
+                // ADD FOOTER LOADING AT THE END
+                waitForFooter();
                 
                 console.log('🎉 Lawn services site initialization complete!');
                 
